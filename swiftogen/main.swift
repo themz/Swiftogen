@@ -8,6 +8,10 @@
 
 import Foundation
 
-print("Hello, World!")
+let filename = CommandLine.arguments[2]
 
+let scanner = Scanner(fileName: filename)
 
+while let l = scanner.next() {
+    print(l)
+}
