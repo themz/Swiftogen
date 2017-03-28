@@ -95,7 +95,7 @@ class Scanner {
         
         while let symbol = container.symbol() {
             updatePointer(symbol)
-//            print(pointer.position(), symbol)
+            print(pointer.position(), symbol)
             
             switch state {
             case .none:
@@ -105,6 +105,7 @@ class Scanner {
                 else if isSeparator(symbol) { state  = .inSeparator }
                 else if isSign(symbol) { state = .inAnnotationDeclaration }
                 else if isStar(symbol) { state = .inAnnotationEnd; continue }
+                else if isСolon(symbol) { return colonLexeme()}
                 buffer += String(symbol)
             case .inAnnotation:
                 if isSkip(symbol) { continue }
@@ -140,6 +141,9 @@ class Scanner {
                     buffer += String(symbol)
                 } else {
                     state = identity(symbol: symbol)
+                    if state == .inСolon {
+                        container.back()
+                    }
                     if state != .error {
                         return wordLexeme(buffer)
                     } else {
@@ -267,5 +271,9 @@ class Scanner {
     
     private func separatorLexeme(_ buffer: String) -> Lexeme {
         return SeparatorLexeme(buffer, position: LexemePosition(pointer: pointer))
+    }
+    
+    private func colonLexeme() -> Lexeme{
+        return ColonLexeme(position: LexemePosition(pointer: pointer))
     }
 }

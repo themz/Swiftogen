@@ -39,6 +39,10 @@ class CodeContainer {
         return symbol
     }
     
+    open func back() {
+        position -= 1
+    }
+    
     private func hasNext() -> Bool {
         return position < data.characters.count
     }

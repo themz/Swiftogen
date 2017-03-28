@@ -1,3 +1,5 @@
+    var Id: Int?
+
 //
 //  TestEntity.swift
 
@@ -8,7 +10,7 @@ class EntityWithId {
     
     
     /**
-     @mapping id optional
+     @mapping id
      */
-    let Id: Int
+    var Id: Int?
 }
