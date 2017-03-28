@@ -55,6 +55,8 @@ fileprivate enum ScannerState {
     case inComment      // /* */
     case inInlineComment// '//'
     case inAnnotation   // '/** */'
+    case inAnnotationDeclaration
+    case inAnnotationEnd // '*/'
     case inСolon        // ':'
     case inSeparator    // '}' '{'
     case inQuestion     // '?'
@@ -75,7 +77,6 @@ class Scanner {
     //char buffer
     private var container: CodeContainer
     private var pointer = PositionPointer()
-    private var state: ScannerState = .none
     
     init(fileName: String) {
         do {
@@ -90,6 +91,7 @@ class Scanner {
     
     func next() -> Lexeme? {
         var buffer: String = ""
+        var state: ScannerState = .none
         
         while let symbol = container.symbol() {
             updatePointer(symbol)
@@ -97,21 +99,42 @@ class Scanner {
             
             switch state {
             case .none:
-                if (isSkip(symbol)) { continue }
-                else if isSlash(symbol) { state = .inSlash }
+                if isSkip(symbol) { continue }
+                else if isSlash(symbol) { state = .inSlash; continue }
                 else if isLetter(symbol) { state = .inWord }
                 else if isSeparator(symbol) { state  = .inSeparator }
+                else if isSign(symbol) { state = .inAnnotationDeclaration }
+                else if isStar(symbol) { state = .inAnnotationEnd; continue }
                 buffer += String(symbol)
             case .inAnnotation:
-                break
+                if isSkip(symbol) { continue }
+                else if isSign(symbol) {
+                    buffer += String(symbol)
+                    state = .inAnnotationDeclaration
+                }
+            case .inAnnotationDeclaration:
+                if isLetter(symbol) {
+                    buffer += String(symbol)
+                } else if isSkip(symbol) {
+                    
+                    return annotationLexeme(buffer)
+                }
+            case .inAnnotationEnd:
+                if isSlash(symbol) {
+                    state = .none
+                    continue
+                }
             case .inBracketBack:
                 break
             case .inBracketFront:
                 break
             case .inComment:
-                break
+                if isStar(symbol) {
+                    state = .inAnnotation
+                }
             case .inSeparator:
-                break
+                state = .none
+                return separatorLexeme(buffer)
             case .inWord:
                 if isLetter(symbol) || isNumber(symbol) {
                     buffer += String(symbol)
@@ -183,6 +206,10 @@ class Scanner {
         return ":" == symbol
     }
     
+    private func isSign(_ symbol: Character) -> Bool {
+        return "@" == symbol
+    }
+    
     private func identity(symbol: Character) -> ScannerState {
         if isSeparator(symbol) {
             return .inSeparator
@@ -223,5 +250,22 @@ class Scanner {
         }
         
         return ReservedWordLexeme(type, position: LexemePosition(pointer: pointer))
+    }
+    
+    private func annotationLexeme(_ buffer: String) -> Lexeme? {
+        let type: AnnotationType
+        
+        switch buffer {
+        case AnnotationType.mapping.rawValue:
+            type = .mapping
+        default:
+            return nil
+        }
+        
+        return AnnotationLexeme(type, position: LexemePosition(pointer: pointer))
+    }
+    
+    private func separatorLexeme(_ buffer: String) -> Lexeme {
+        return SeparatorLexeme(buffer, position: LexemePosition(pointer: pointer))
     }
 }

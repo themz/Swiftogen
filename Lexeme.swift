@@ -26,7 +26,7 @@ internal enum BaseTypes: String {
 }
 
 internal enum AnnotationType: String {
-    case mapping = "mapping"
+    case mapping = "@mapping"
 }
 
 internal enum AnnotationOptionsType: String {
@@ -80,6 +80,10 @@ class Lexeme {
         self.position = position
         self.value = value
     }
+    
+    var description: String {
+        return "\(value)"
+    }
 }
 
 class ReservedWordLexeme: Lexeme {
@@ -88,6 +92,10 @@ class ReservedWordLexeme: Lexeme {
     init(_ word: ReserverdWord, position: LexemePosition) {
         self.word = word
         super.init(type: .reservedword, position: position, value: word.rawValue)
+    }
+    
+    override var description: String {
+        return "\(word.rawValue) " + super.description
     }
 }
 
