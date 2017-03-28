@@ -12,6 +12,11 @@ let filename = CommandLine.arguments[2]
 
 let scanner = Scanner(fileName: filename)
 
-while let l = scanner.next() {
-    print(l.description)
+
+do {
+    while let l = try scanner.next() {
+        print(l.description)
+    }
+} catch {
+    print((error as! ParserError).localizedDescription)
 }

@@ -89,13 +89,13 @@ class Scanner {
         }
     }
     
-    func next() -> Lexeme? {
+    func next() throws -> Lexeme? {
         var buffer: String = ""
         var state: ScannerState = .none
         
         while let symbol = container.symbol() {
             updatePointer(symbol)
-            print(pointer.position(), symbol)
+            //            print(pointer.position(), symbol)
             
             switch state {
             case .none:
@@ -106,6 +106,7 @@ class Scanner {
                 else if isSign(symbol) { state = .inAnnotationDeclaration }
                 else if isStar(symbol) { state = .inAnnotationEnd; continue }
                 else if isСolon(symbol) { return colonLexeme()}
+                else if isQuestion(symbol) { return questionLexeme()}
                 buffer += String(symbol)
             case .inAnnotation:
                 if isSkip(symbol) { continue }
@@ -117,8 +118,7 @@ class Scanner {
                 if isLetter(symbol) {
                     buffer += String(symbol)
                 } else if isSkip(symbol) {
-                    
-                    return annotationLexeme(buffer)
+                    return try! annotationLexeme(buffer)
                 }
             case .inAnnotationEnd:
                 if isSlash(symbol) {
@@ -141,13 +141,15 @@ class Scanner {
                     buffer += String(symbol)
                 } else {
                     state = identity(symbol: symbol)
-                    if state == .inСolon {
+                    if state == .inСolon || state == .inQuestion {
                         container.back()
                     }
                     if state != .error {
                         return wordLexeme(buffer)
                     } else {
-                       return nil
+                        throw ParserError(line: pointer.line,
+                                          colomn: pointer.column,
+                                          message: "Unexpected symbol")
                     }
                 }
             case .inInlineComment:
@@ -170,14 +172,15 @@ class Scanner {
             case .inСolon:
                 break
             case .error:
-                print("Караул!")
-                return nil
+                break
             }
         }
         
-        return nil
+        throw ParserError(line: pointer.line,
+                          colomn: pointer.column,
+                          message: "Unexpected symbol")
     }
-    
+        
     private func isSkip(_ symbol: Character) -> Bool {
         return skipSymbols.contains(String(symbol))
     }
@@ -214,6 +217,12 @@ class Scanner {
         return "@" == symbol
     }
     
+    private func isQuestion(_ symbol: Character) -> Bool {
+        return "?" == symbol
+    }
+    
+    // MARK: -
+    
     private func identity(symbol: Character) -> ScannerState {
         if isSeparator(symbol) {
             return .inSeparator
@@ -221,6 +230,8 @@ class Scanner {
             return .none
         } else if isСolon(symbol) {
             return .inСolon
+        } else if isQuestion(symbol) {
+            return .inQuestion
         }
         
         return .error
@@ -256,14 +267,16 @@ class Scanner {
         return ReservedWordLexeme(type, position: LexemePosition(pointer: pointer))
     }
     
-    private func annotationLexeme(_ buffer: String) -> Lexeme? {
+    private func annotationLexeme(_ buffer: String) throws -> Lexeme? {
         let type: AnnotationType
         
         switch buffer {
         case AnnotationType.mapping.rawValue:
             type = .mapping
         default:
-            return nil
+            throw ParserError(line: pointer.line,
+                              colomn: pointer.column,
+                              message: "Unexpected annotation type")
         }
         
         return AnnotationLexeme(type, position: LexemePosition(pointer: pointer))
@@ -273,7 +286,11 @@ class Scanner {
         return SeparatorLexeme(buffer, position: LexemePosition(pointer: pointer))
     }
     
-    private func colonLexeme() -> Lexeme{
-        return ColonLexeme(position: LexemePosition(pointer: pointer))
+    private func colonLexeme() -> Lexeme {
+        return Lexeme(type: .colon, position: LexemePosition(pointer: pointer), value: ":")
+    }
+    
+    private func questionLexeme() -> Lexeme {
+        return Lexeme(type: .question, position: LexemePosition(pointer: pointer), value: "?")
     }
 }

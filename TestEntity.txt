@@ -1,4 +1,6 @@
+    var Id: Int
     var Id: Int?
+    var Id: Int*
 
 //
 //  TestEntity.swift

@@ -46,6 +46,7 @@ internal enum LexemeType {
     case separator
     case annotation
     case colon
+    case question
     case type
     case endof
     case empty
@@ -97,12 +98,6 @@ class ReservedWordLexeme: Lexeme {
     
     override var description: String {
         return "\(word.rawValue) " + super.description
-    }
-}
-
-class ColonLexeme: Lexeme {
-    init(position: LexemePosition) {
-        super.init(type: .colon, position: position, value: ":")
     }
 }
 
