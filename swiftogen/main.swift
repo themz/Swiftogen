@@ -16,6 +16,9 @@ let scanner = Scanner(fileName: filename)
 do {
     while let l = try scanner.next() {
         print(l.description)
+        if l is EOFLexeme {
+            break
+        }
     }
 } catch {
     print((error as! ParserError).localizedDescription)

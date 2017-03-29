@@ -95,8 +95,7 @@ class Scanner {
         
         while let symbol = container.symbol() {
             updatePointer(symbol)
-            //            print(pointer.position(), symbol)
-            
+//            print(pointer.position(), symbol)
             switch state {
             case .none:
                 if isSkip(symbol) { continue }
@@ -134,7 +133,6 @@ class Scanner {
                     state = .inAnnotation
                 }
             case .inSeparator:
-                state = .none
                 return separatorLexeme(buffer)
             case .inWord:
                 if isLetter(symbol) || isNumber(symbol) {
@@ -176,9 +174,7 @@ class Scanner {
             }
         }
         
-        throw ParserError(line: pointer.line,
-                          colomn: pointer.column,
-                          message: "Unexpected symbol")
+        return EOFLexeme(position: LexemePosition(pointer: pointer))
     }
         
     private func isSkip(_ symbol: Character) -> Bool {

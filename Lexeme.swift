@@ -27,6 +27,8 @@ internal enum BaseTypes: String {
 
 internal enum AnnotationType: String {
     case mapping = "@mapping"
+    case primary = "@primary"
+    case none = ""
 }
 
 internal enum AnnotationOptionsType: String {
@@ -48,7 +50,7 @@ internal enum LexemeType {
     case colon
     case question
     case type
-    case endof
+    case eof
     case empty
 }
 
@@ -102,18 +104,21 @@ class ReservedWordLexeme: Lexeme {
 }
 
 class IdentificatorLexeme: Lexeme {
-    
     init(_ value: String, position: LexemePosition) {
         super.init(type: .identificator, position: position, value: value)
     }
 }
 
 class SeparatorLexeme: Lexeme {
-    
     init(_ value: String, position: LexemePosition) {
         super.init(type: .separator, position: position, value: value)
     }
-    
+}
+
+class EOFLexeme: Lexeme {
+    init(position: LexemePosition) {
+        super.init(type: .eof, position: position, value: "EOF")
+    }
 }
 
 class AnnotationLexeme: Lexeme {

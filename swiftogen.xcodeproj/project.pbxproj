@@ -15,6 +15,8 @@
 		749C35CB1E86B4D3000019F8 /* Lexeme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749C35CA1E86B4D3000019F8 /* Lexeme.swift */; };
 		749C35CD1E86C1AA000019F8 /* ConsoleIO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749C35CC1E86C1AA000019F8 /* ConsoleIO.swift */; };
 		74C1991C1E8A962E002A2EB5 /* ParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C1991B1E8A962E002A2EB5 /* ParserError.swift */; };
+		74C199201E8AB333002A2EB5 /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74C1991F1E8AB333002A2EB5 /* Symbol.swift */; };
+		74EDF08E1E8C0E2B005F8479 /* SymbolTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74EDF08D1E8C0E2B005F8479 /* SymbolTable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,6 +42,8 @@
 		749C35CC1E86C1AA000019F8 /* ConsoleIO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConsoleIO.swift; sourceTree = "<group>"; };
 		74C1991A1E8A30FA002A2EB5 /* TestEntity.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestEntity.txt; sourceTree = "<group>"; };
 		74C1991B1E8A962E002A2EB5 /* ParserError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserError.swift; sourceTree = "<group>"; };
+		74C1991F1E8AB333002A2EB5 /* Symbol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
+		74EDF08D1E8C0E2B005F8479 /* SymbolTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymbolTable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +93,8 @@
 				749C35CC1E86C1AA000019F8 /* ConsoleIO.swift */,
 				7438C0631E8975A90006BAD1 /* Buffer.swift */,
 				74C1991B1E8A962E002A2EB5 /* ParserError.swift */,
+				74C1991F1E8AB333002A2EB5 /* Symbol.swift */,
+				74EDF08D1E8C0E2B005F8479 /* SymbolTable.swift */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -153,8 +159,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				749C35CB1E86B4D3000019F8 /* Lexeme.swift in Sources */,
+				74C199201E8AB333002A2EB5 /* Symbol.swift in Sources */,
 				749C35C41E86AD09000019F8 /* TestEntity.swift in Sources */,
 				7438C0641E8975A90006BAD1 /* Buffer.swift in Sources */,
+				74EDF08E1E8C0E2B005F8479 /* SymbolTable.swift in Sources */,
 				74C1991C1E8A962E002A2EB5 /* ParserError.swift in Sources */,
 				749C35BD1E86A859000019F8 /* main.swift in Sources */,
 				749C35CD1E86C1AA000019F8 /* ConsoleIO.swift in Sources */,
