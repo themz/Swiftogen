@@ -12,7 +12,7 @@ struct PositionPointer {
     var line: Int
     var column: Int
     
-    init(_ line: Int = 0, _ column: Int = 0) {
+    init(_ line: Int = 1, _ column: Int = 1) {
         self.line = line
         self.column = column
     }
@@ -27,12 +27,12 @@ struct PositionPointer {
     
     mutating func nextLine(_ count: Int = 1) {
         self.line += count
-        self.column = 0
+        self.column = 1
     }
     
     mutating func prevLine(_ count: Int = 1) {
         self.line -= count
-        self.column = 0
+        self.column = 1
     }
     
     func position() -> (line: Int, column: Int) {
@@ -89,7 +89,7 @@ class Scanner {
         }
     }
     
-    func next() throws -> Lexeme? {
+    func next() throws -> Lexeme {
         var buffer: String = ""
         var state: ScannerState = .none
         
@@ -145,9 +145,10 @@ class Scanner {
                     if state != .error {
                         return wordLexeme(buffer)
                     } else {
-                        throw ParserError(line: pointer.line,
-                                          colomn: pointer.column,
-                                          message: "Unexpected symbol")
+                        throw ScannerError(
+                            line: pointer.line,
+                            colomn: pointer.column,
+                            message: "Unexpected symbol")
                     }
                 }
             case .inInlineComment:
@@ -186,7 +187,7 @@ class Scanner {
     }
     
     private func isLetter(_ symbol: Character) -> Bool {
-        return letterSymbols.contains(String(symbol))
+        return letterSymbols.contains(String(symbol)) || symbol == "_"
     }
     
     private func isNumber(_ symbol: Character) -> Bool {
@@ -244,17 +245,17 @@ class Scanner {
     // Mark - Lexeme
     
     private func wordLexeme(_ buffer: String) -> Lexeme {
-        var type: ReserverdWord
+        var type: ReserveredWord
         switch buffer {
-        case ReserverdWord._class.rawValue:
+        case ReserveredWord._class.rawValue:
             type = ._class
-        case ReserverdWord._var.rawValue:
+        case ReserveredWord._var.rawValue:
             type = ._var
-        case ReserverdWord._let.rawValue:
+        case ReserveredWord._let.rawValue:
             type = ._let
-        case ReserverdWord._struct.rawValue:
+        case ReserveredWord._struct.rawValue:
             type = ._struct
-        case ReserverdWord._import.rawValue:
+        case ReserveredWord._import.rawValue:
             type = ._import
         default:
             return IdentificatorLexeme(buffer, position: LexemePosition(pointer: pointer))
@@ -263,16 +264,17 @@ class Scanner {
         return ReservedWordLexeme(type, position: LexemePosition(pointer: pointer))
     }
     
-    private func annotationLexeme(_ buffer: String) throws -> Lexeme? {
+    private func annotationLexeme(_ buffer: String) throws -> Lexeme {
         let type: AnnotationType
         
         switch buffer {
         case AnnotationType.mapping.rawValue:
             type = .mapping
         default:
-            throw ParserError(line: pointer.line,
-                              colomn: pointer.column,
-                              message: "Unexpected annotation type")
+            throw ScannerError(
+                line: pointer.line,
+                colomn: pointer.column,
+                message: "Unexpected annotation type")
         }
         
         return AnnotationLexeme(type, position: LexemePosition(pointer: pointer))
