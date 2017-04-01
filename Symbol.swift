@@ -32,8 +32,12 @@ class Symbol {
 class EmptySymbol: Symbol {}
 
 class ClassSymbol: Symbol {
-    var annotations: [AnnotationSymbol] = []
-    var properties: [PropertySymbol] = []
+    var symbolsTable = SymbolsTable()
+    
+    init(_ name: String) {
+        super.init(name, type: ._class)
+    }
+    
 }
 
 class TypeSymbol: Symbol {
@@ -43,18 +47,15 @@ class TypeSymbol: Symbol {
 }
 
 class PropertySymbol: Symbol {
-    private var annotations: [AnnotationSymbol]
     private var propertyName: String
     private var isConst: Bool
     private var propertyType: TypeSymbol
     
     init(
-        annotations: [AnnotationSymbol],
         name: String,
         isConst: Bool = false,
         type: TypeSymbol)
     {
-        self.annotations = annotations
         self.propertyName = name
         self.isConst = isConst
         self.propertyType = type

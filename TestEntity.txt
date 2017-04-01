@@ -1,18 +1,43 @@
-    var Id: Int
-    var Id: Int?
-    var Id: Int*
-
 //
 //  TestEntity.swift
 
 
 import Foundation
 
-class EntityWithId {
-    
-    
-    /**
-     @mapping id
-     */
-    var Id: Int?
+class Account {
+
+///
+var id: String?
+
+/**
+    @mapping first_name
+*/
+var firstName: String?
+
+/**
+    - фамилия
+@mapping first_name
+
+*/
+var lastName: String?
+
+/**
+ @mapping phone
+*/
+var phone: String?
+
+/// Адрес электропочты
+var email: UserEmail?
+
+/// SMS-подписка включена
+var smsSubscription: Bool?
+
+/// Email-подписка включена
+var emailSubscription: Bool?
+
+/// Дата рождения
+var birthdate: Date?
+
+/// URL-адрес изображения аватара.
+//  var avatarUrl: String?
 }

@@ -10,16 +10,10 @@ import Foundation
 
 let filename = CommandLine.arguments[2]
 
-let scanner = Scanner(fileName: filename)
-
+let parser = Parser(scanner: Scanner(fileName: filename))
 
 do {
-    while let l = try scanner.next() {
-        print(l.description)
-        if l is EOFLexeme {
-            break
-        }
-    }
+    try parser.parse()
 } catch {
     print((error as! ParserError).localizedDescription)
 }
