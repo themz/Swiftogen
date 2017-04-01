@@ -9,7 +9,7 @@
 import Foundation
 
 
-internal enum ReserverdWord: String {
+internal enum ReserveredWord: String {
     case _var = "var"
     case _let = "let"
     case _class = "class"
@@ -33,13 +33,6 @@ internal enum AnnotationType: String {
 
 internal enum AnnotationOptionsType: String {
     case optional = "optional"
-}
-
-internal enum AnnotationSymbols: String {
-    case slash = "/"
-    case backSlash = "\\"
-    case dog = "@"
-    case star = "*"
 }
 
 internal enum LexemeType {
@@ -74,10 +67,13 @@ struct LexemePosition{
     }
 }
 
-class Lexeme {
+class Lexeme: Equatable {
     fileprivate let type: LexemeType?
     fileprivate var position: LexemePosition?
-    fileprivate var value: String?
+    internal var value: String!
+    public var coordinate: (line: Int, colomn: Int) {
+        return (line: position?.line ?? 0, colomn: position?.column ?? 0)
+    }
     
     init(type: LexemeType, position: LexemePosition, value: String) {
         self.type = type
@@ -88,12 +84,16 @@ class Lexeme {
     var description: String {
         return "\(value)"
     }
+    
 }
 
 class ReservedWordLexeme: Lexeme {
-    private let word: ReserverdWord
+    private let word: ReserveredWord
+    public var rType: ReserveredWord {
+        return word
+    }
     
-    init(_ word: ReserverdWord, position: LexemePosition) {
+    init(_ word: ReserveredWord, position: LexemePosition) {
         self.word = word
         super.init(type: .reservedword, position: position, value: word.rawValue)
     }
@@ -122,7 +122,7 @@ class EOFLexeme: Lexeme {
 }
 
 class AnnotationLexeme: Lexeme {
-    private let annotationType: AnnotationType
+    let annotationType: AnnotationType
     
     init(_ type: AnnotationType, position: LexemePosition) {
         self.annotationType = type
@@ -138,3 +138,23 @@ class AnnotationOptionsLexeme: Lexeme {
         super.init(type: .annotation, position: position, value: optionsType.rawValue)
     }
 }
+
+//MARK: - Helpers
+
+func ==(lhs: Lexeme, rhs: Lexeme) -> Bool {
+    return lhs.type == rhs.type
+}
+
+func ==(lhs: Lexeme, rhs: LexemeType) -> Bool {
+    return lhs.type == rhs
+}
+
+
+func !=(lhs: Lexeme, rhs: Lexeme) -> Bool {
+    return !(lhs.type == rhs.type)
+}
+
+func !=(lhs: Lexeme, rhs: LexemeType) -> Bool {
+    return !(lhs.type == rhs)
+}
+
