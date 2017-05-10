@@ -13,33 +13,75 @@ import Foundation
  */
 
 class MappingGenerator: Generator {
-    private let classSymbol: ClassSymbol
+    private let parser: Parser
     
-    init(classSymbol: ClassSymbol) {
-        
+    init(parser: Parser) {
+        self.parser = parser
     }
     
     func generate() -> String {
-        let file =
-        generateFileInfo() +
-        generateInit() +
-        generateMappings()
-        
-        print(file)
+        print(generateClass())
+        return generateClass()
     }
     
     func generateFileInfo() -> String {
-        return  "//" +
-            "// Swiftogen" +
-            "// Geneated mapping class for \(classSymbol.name)" +
-            "// Generated at \(Date())" +
-            "//"
-            "// Copyright © 2017 mz. All rights reserved."
+        return  ""
+    }
+    
+    private func generateClass() -> String {
+        let className = self.parser.symbolsTable.top()?.name
+        var s = "class \(className!)MappingObject: Mappable { \n"
+        s += generateInit()
+        var m = "\n\tfunc mapping(map: Map) {\n"
+        
+        let symbols = (self.parser.symbolsTable.top() as? ClassSymbol)?.symbolsTable.allSymbols()
+        
+        for symbol in symbols! {
+            if symbol.type == ._property {
+                let propertySymbol = symbol as! PropertySymbol
+                s += generate(property: propertySymbol)
+                m += generateMappingAnnotation(property: propertySymbol)
+            }
+        }
+        
+        m += "\t}\n"
+        s += "\(m)}\n"
+        
+        return s
     }
     
     private func generateInit() -> String {
-        return "required convenience init?(map: Map) { self.init() }"
+        return "\n\trequired convenience init?(map: Map) { self.init() }\n\n"
     }
     
-    private func generateMappings() {}
+    private func generate(property: PropertySymbol) -> String {
+        return "\tvar \(property.propertyName): \(property.propertyType.name)?\n"
+    }
+    
+    private func generateMappingAnnotation(property: PropertySymbol) -> String {
+        var s = ""
+        for annotation in property.annotations {
+            if annotation.annotationType == .mapping {
+                s += "\t\t\(property.propertyName) <- map[\"\((annotation as! MappingAnnotationSymbol).mappingName)\"]\n"
+            }
+        }
+        
+        return s
+    }
 }
+
+
+
+//class WebResponceObject: Mappable {
+//    var data: T?
+//    var error: Error?
+//    var status: String?
+//    
+//    func mapping(map: Map) {
+//        data    <- map["data"]
+//        error   <- map["error"]
+//        status  <- map["status"]
+//    }
+//    
+//    required init?(map: Map) {}
+//}

@@ -14,6 +14,8 @@ let parser = Parser(scanner: Scanner(fileName: filename))
 
 do {
     try parser.parse()
+    let mappingGenerator = MappingGenerator(parser: parser)
+    print(mappingGenerator.generate())    
 } catch {
     print((error as! ParserError).localizedDescription)
 }

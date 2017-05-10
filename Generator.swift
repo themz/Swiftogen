@@ -10,5 +10,4 @@ import Foundation
 
 protocol Generator {
     func generate() -> String
-    func generateFileInfo() -> String
 }
