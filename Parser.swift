@@ -22,6 +22,10 @@ class Parser {
     private let stateStack = ParseStateStack()
     private let symbolsTableStack = SymbolsTableStack()
     
+    open var symbolsTable: SymbolsTable {
+        return self.symbolsTableStack.top()
+    }
+    
     init(scanner: Scanner) {
         self.scanner = scanner
         stateStack.push(state: ._start)
@@ -33,7 +37,7 @@ class Parser {
     private func next() {
         do {
             cl = try scanner.next()
-            print(cl)
+//            print(cl)
         } catch {
             print((error as! ScannerError).localizedDescription)
         }
@@ -46,6 +50,10 @@ class Parser {
     open func parse() throws {
         while(hasNext()) {
             try parseDeclaration()
+        }
+        
+        if self.stateStack.top() == ._start {
+            try self.rebuildAnnotationsAfter()
         }
     }
     
@@ -140,5 +148,23 @@ class Parser {
         self.symbolsTableStack.top().add(symbol: annotation)
         next()
         try parse()
+    }
+    
+    private func rebuildAnnotationsAfter() throws {
+        let classSymbol = self.symbolsTable.top() as! ClassSymbol
+        let symbols = classSymbol.symbolsTable.allSymbols()
+        
+        var propertyAnnotations = [AnnotationSymbol]()
+        
+        for s in symbols {
+            if s.type == ._annotation {
+                propertyAnnotations.append(s as! AnnotationSymbol)
+            } else if s.type == ._property {
+                (s as! PropertySymbol).annotations = propertyAnnotations
+                propertyAnnotations = [AnnotationSymbol]()
+            } else {
+                throw ParserError(lexeme: cl, message: "Unexpected symbol ")
+            }
+        }
     }
 }

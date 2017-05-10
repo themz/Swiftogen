@@ -47,9 +47,10 @@ class TypeSymbol: Symbol {
 }
 
 class PropertySymbol: Symbol {
-    private var propertyName: String
-    private var isConst: Bool
-    private var propertyType: TypeSymbol
+    var propertyName: String
+    var isConst: Bool
+    var propertyType: TypeSymbol
+    var annotations: [AnnotationSymbol] = []
     
     init(
         name: String,
@@ -76,8 +77,8 @@ class AnnotationSymbol: Symbol {
 }
 
 class MappingAnnotationSymbol: AnnotationSymbol {
-    private var options: [AnnotationOptionsType] = []
-    private var mappingName: String
+    var options: [AnnotationOptionsType] = []
+    var mappingName: String
     
     init(mappingName: String) {
         self.mappingName = mappingName
