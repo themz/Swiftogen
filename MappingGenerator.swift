@@ -20,12 +20,25 @@ class MappingGenerator: Generator {
     }
     
     func generate() -> String {
-        print(generateClass())
-        return generateClass()
+        return generateImports() + generateClass()
+    }
+    
+    func touch(code: String, filePath: String, fileName: String){
+        let path =  URL(fileURLWithPath: filePath).appendingPathComponent("\(fileName)MappingObject.swift")
+        do {
+            try code.write(to: path, atomically: false, encoding: .utf8)
+        }
+        catch {
+            print(error)
+        }
     }
     
     func generateFileInfo() -> String {
         return  ""
+    }
+    
+    func generateImports() -> String {
+        return "import Foundation\nimport ObjectMapper\n\n"
     }
     
     private func generateClass() -> String {
@@ -69,19 +82,3 @@ class MappingGenerator: Generator {
         return s
     }
 }
-
-
-
-//class WebResponceObject: Mappable {
-//    var data: T?
-//    var error: Error?
-//    var status: String?
-//    
-//    func mapping(map: Map) {
-//        data    <- map["data"]
-//        error   <- map["error"]
-//        status  <- map["status"]
-//    }
-//    
-//    required init?(map: Map) {}
-//}

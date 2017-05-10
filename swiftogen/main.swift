@@ -9,13 +9,17 @@
 import Foundation
 
 let filename = CommandLine.arguments[2]
+let filePath = CommandLine.arguments[3]
+let name = ((filename.components(separatedBy: "/").last)?.components(separatedBy: ".").first)!
 
 let parser = Parser(scanner: Scanner(fileName: filename))
 
 do {
     try parser.parse()
     let mappingGenerator = MappingGenerator(parser: parser)
-    print(mappingGenerator.generate())    
+    var s = mappingGenerator.generate()
+    mappingGenerator.touch(code: s, filePath: filePath, fileName: name)
+    
 } catch {
     print((error as! ParserError).localizedDescription)
 }
