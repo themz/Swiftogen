@@ -21,5 +21,5 @@ do {
     mappingGenerator.touch(code: s, filePath: filePath, fileName: name)
     
 } catch {
-    print((error as! ParserError).localizedDescription)
+    print((error as! ParserError).localizedDescription + " at file \(name)")
 }
