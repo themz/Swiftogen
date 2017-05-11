@@ -139,7 +139,7 @@ class Scanner {
                     buffer += String(symbol)
                 } else {
                     state = identity(symbol: symbol)
-                    if state == .inСolon || state == .inQuestion {
+                    if state == .inСolon || state == .inQuestion || state == .inSeparator {
                         container.back()
                     }
                     if state != .error {
