@@ -86,14 +86,23 @@ class Parser {
         stateStack.push(state: ._class)
         next()
         if cl != .identificator {
-            throw ParserError(lexeme: cl, message: "Class name expacted")
+            throw ParserError(lexeme: cl, message: "Class name expacted ")
         }
         let _classSymbol = ClassSymbol(cl.value)
         self.symbolsTableStack.top().add(symbol: _classSymbol)
         self.symbolsTableStack.push(state: _classSymbol.symbolsTable)
         next()
+        if cl == .colon {
+            next()
+            if (cl != .identificator) {
+                throw ParserError(lexeme: cl, message: "Expected super class ")
+            }
+            _classSymbol.superClassName = cl.value
+            next()
+        }
+        
         if cl != .separator {
-            throw ParserError(lexeme: cl, message: "Expected separator")
+            throw ParserError(lexeme: cl, message: "Expected separator ")
         }
         next()
         try parse()

@@ -33,11 +33,11 @@ class EmptySymbol: Symbol {}
 
 class ClassSymbol: Symbol {
     var symbolsTable = SymbolsTable()
+    var superClassName: String?
     
     init(_ name: String) {
         super.init(name, type: ._class)
     }
-    
 }
 
 class TypeSymbol: Symbol {

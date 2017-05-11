@@ -43,13 +43,21 @@ class MappingGenerator: Generator {
     
     private func generateClass() -> String {
         let className = self.parser.symbolsTable.top()?.name
-        var s = "class \(className!)MappingObject: Mappable { \n"
+        let _classSymbol = self.parser.symbolsTable.top() as! ClassSymbol
+        
+        var s = "class \(className!)MappingObject: Mappable"
+        if _classSymbol.superClassName != nil {
+           s += ", \(_classSymbol.superClassName!)"
+        }
+        
+        s += "{\n"
+        
         s += generateInit()
         var m = "\n\tfunc mapping(map: Map) {\n"
         
-        let symbols = (self.parser.symbolsTable.top() as? ClassSymbol)?.symbolsTable.allSymbols()
+        let symbols = _classSymbol.symbolsTable.allSymbols()
         
-        for symbol in symbols! {
+        for symbol in symbols {
             if symbol.type == ._property {
                 let propertySymbol = symbol as! PropertySymbol
                 s += generate(property: propertySymbol)
