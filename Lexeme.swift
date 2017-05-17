@@ -17,14 +17,6 @@ internal enum ReserveredWord: String {
     case _import = "import"
 }
 
-internal enum BaseTypes: String {
-    case _int = "Int"
-    case _float = "Float"
-    case _bool = "Bool"
-    case _double = "Double"
-    case _string = "String"
-}
-
 internal enum AnnotationType: String {
     case mapping = "@mapping"
     case primary = "@primary"
@@ -45,6 +37,8 @@ internal enum LexemeType {
     case type
     case eof
     case empty
+    case openBracket
+    case closeBracket
 }
 
 struct LexemePosition{

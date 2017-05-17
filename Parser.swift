@@ -16,6 +16,14 @@ enum ParserState {
     case end
 }
 
+internal enum BaseTypes: String {
+    case _int = "Int"
+    case _float = "Float"
+    case _bool = "Bool"
+    case _double = "Double"
+    case _string = "String"
+}
+
 class Parser {
     private let scanner: Scanner
     private var cl: Lexeme! // currentLexeme
@@ -135,15 +143,41 @@ class Parser {
             throw ParserError(lexeme: cl, message: "Expacted colon")
         }
         next()
-        if cl != .identificator {
-            throw ParserError(lexeme: cl, message: "Expacted property type")
+        let type: TypeSymbol!
+        
+        if cl == .openBracket {
+            next()
+            if cl != .identificator {
+                throw ParserError(lexeme: cl, message: "Expacted property type")
+            }
+            type = ArrayTypeSymbol(name: "", arrayType: typeSymbol(lexeme: cl))
+            next()
+            if cl != .closeBracket {
+                throw ParserError(lexeme: cl, message: "Expacted close bracket")
+            }
+        } else if cl == .identificator {
+            type = typeSymbol(lexeme: cl)
+        } else {
+            throw ParserError(lexeme: cl, message: "Expacted property type ")
         }
-        let type = TypeSymbol(name: cl.value)
+        
         let property = PropertySymbol(name: name, type: type)
         symbolsTableStack.top().add(symbol: property)
         next()
         next() //  skip '?'
         stateStack.pop() //.property
+    }
+    
+    private func typeSymbol(lexeme: Lexeme) -> TypeSymbol {
+        if lexeme.value == BaseTypes._int.rawValue
+        || lexeme.value == BaseTypes._float.rawValue
+        || lexeme.value == BaseTypes._bool.rawValue
+        || lexeme.value == BaseTypes._double.rawValue
+        || lexeme.value == BaseTypes._string.rawValue {
+            return BaseTypeSymbol(name: lexeme.value)
+        } else {
+            return CustomTypeSymbol(name: lexeme.value)
+        }
     }
     
     // MARK: - Annotations

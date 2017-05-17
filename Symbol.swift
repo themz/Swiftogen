@@ -46,6 +46,23 @@ class TypeSymbol: Symbol {
     }
 }
 
+class BaseTypeSymbol: TypeSymbol {
+
+}
+
+class CustomTypeSymbol: TypeSymbol {
+    
+}
+
+class ArrayTypeSymbol: TypeSymbol {
+    var arrayType: TypeSymbol
+    
+    init(name: String, arrayType: TypeSymbol) {
+        self.arrayType = arrayType
+        super.init(name: name)
+    }
+}
+
 class PropertySymbol: Symbol {
     var propertyName: String
     var isConst: Bool

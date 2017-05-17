@@ -106,6 +106,8 @@ class Scanner {
                 else if isStar(symbol) { state = .inAnnotationEnd; continue }
                 else if isСolon(symbol) { return colonLexeme()}
                 else if isQuestion(symbol) { return questionLexeme()}
+                else if isBracketFront(symbol) { return bracketFrontLexeme() }
+                else if isBracketBack(symbol) { return bracketBackLexeme() }
                 buffer += String(symbol)
             case .inAnnotation:
                 if isSkip(symbol) { continue }
@@ -124,10 +126,6 @@ class Scanner {
                     state = .none
                     continue
                 }
-            case .inBracketBack:
-                break
-            case .inBracketFront:
-                break
             case .inComment:
                 if isStar(symbol) {
                     state = .inAnnotation
@@ -139,7 +137,10 @@ class Scanner {
                     buffer += String(symbol)
                 } else {
                     state = identity(symbol: symbol)
-                    if state == .inСolon || state == .inQuestion || state == .inSeparator {
+                    if state == .inСolon
+                        || state == .inQuestion
+                        || state == .inSeparator
+                        || state == .inBracketBack  {
                         container.back()
                     }
                     if state != .error {
@@ -169,6 +170,10 @@ class Scanner {
             case .inStar:
                 break
             case .inСolon:
+                break
+            case .inBracketBack:
+                break
+            case .inBracketFront:
                 break
             case .error:
                 break
@@ -218,6 +223,14 @@ class Scanner {
         return "?" == symbol
     }
     
+    private func isBracketFront(_ symbol: Character) -> Bool {
+        return "[" == symbol
+    }
+    
+    private func isBracketBack(_ symbol: Character) -> Bool {
+        return "]" == symbol
+    }
+    
     // MARK: -
     
     private func identity(symbol: Character) -> ScannerState {
@@ -229,6 +242,8 @@ class Scanner {
             return .inСolon
         } else if isQuestion(symbol) {
             return .inQuestion
+        } else if isBracketBack(symbol) {
+            return .inBracketBack
         }
         
         return .error
@@ -282,6 +297,13 @@ class Scanner {
     
     private func separatorLexeme(_ buffer: String) -> Lexeme {
         return SeparatorLexeme(buffer, position: LexemePosition(pointer: pointer))
+    }
+    
+    private func bracketFrontLexeme() -> Lexeme {
+        return Lexeme(type: .openBracket, position: LexemePosition(pointer: pointer), value: "[")
+    }
+    private func bracketBackLexeme() -> Lexeme {
+        return Lexeme(type: .closeBracket, position: LexemePosition(pointer: pointer), value: "]")
     }
     
     private func colonLexeme() -> Lexeme {

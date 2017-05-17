@@ -45,15 +45,17 @@ class MappingGenerator: Generator {
         let className = self.parser.symbolsTable.top()?.name
         let _classSymbol = self.parser.symbolsTable.top() as! ClassSymbol
         
-        var s = "class \(className!)MappingObject: Mappable"
+        var s = "class \(className!)MappingObject: "
         if _classSymbol.superClassName != nil {
-           s += ", \(_classSymbol.superClassName!)"
+           s += "\(_classSymbol.superClassName!)MappingObject"
+        } else {
+            s += "Mappable"
         }
         
         s += "{\n"
         
         s += generateInit()
-        var m = "\n\tfunc mapping(map: Map) {\n"
+        var m = "\n\t\(_classSymbol.superClassName != nil ? "override " : "")func mapping(map: Map) {\n"
         
         let symbols = _classSymbol.symbolsTable.allSymbols()
         
@@ -76,7 +78,23 @@ class MappingGenerator: Generator {
     }
     
     private func generate(property: PropertySymbol) -> String {
-        return "\tvar \(property.propertyName): \(property.propertyType.name)?\n"
+        var s = ""
+        
+        if property.propertyType is ArrayTypeSymbol {
+            let arrayType = (property.propertyType as! ArrayTypeSymbol).arrayType
+            
+            let typeName =  arrayType is BaseTypeSymbol ? arrayType.name : "\(arrayType.name)MappingObject"
+            
+            s += "\tvar \(property.propertyName): [\(typeName)]?\n"
+        } else if  property.propertyType is BaseTypeSymbol {
+            s += "\tvar \(property.propertyName): \(property.propertyType.name)?\n"
+        } else if property.propertyType is CustomTypeSymbol {
+            s += "\tvar \(property.propertyName): \(property.propertyType.name)MappingObject?\n"
+        } else {
+            
+        }
+        
+        return s
     }
     
     private func generateMappingAnnotation(property: PropertySymbol) -> String {
