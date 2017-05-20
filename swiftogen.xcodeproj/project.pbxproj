@@ -11,6 +11,7 @@
 		7437FDF41E9064FB003CCE89 /* MappingGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7437FDF31E9064FB003CCE89 /* MappingGenerator.swift */; };
 		7438C0641E8975A90006BAD1 /* Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7438C0631E8975A90006BAD1 /* Buffer.swift */; };
 		743967F71ECD855D00354FA6 /* MappingTransformerGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743967F61ECD855D00354FA6 /* MappingTransformerGenerator.swift */; };
+		743968141ECE9E3D00354FA6 /* redgemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743968131ECE9E3D00354FA6 /* redgemTests.swift */; };
 		74673BCA1ECEED4600CBCF0C /* ArgumentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74673BC91ECEED4600CBCF0C /* ArgumentError.swift */; };
 		747362D51E8E2CE7000A6E6E /* ParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747362D41E8E2CE6000A6E6E /* ParserError.swift */; };
 		747362D81E8E340E000A6E6E /* SymbolsTableStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747362D71E8E340E000A6E6E /* SymbolsTableStack.swift */; };
@@ -43,6 +44,9 @@
 		7437FDF31E9064FB003CCE89 /* MappingGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MappingGenerator.swift; sourceTree = "<group>"; };
 		7438C0631E8975A90006BAD1 /* Buffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Buffer.swift; sourceTree = "<group>"; };
 		743967F61ECD855D00354FA6 /* MappingTransformerGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MappingTransformerGenerator.swift; sourceTree = "<group>"; };
+		743968111ECE9E3D00354FA6 /* redgemTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = redgemTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		743968131ECE9E3D00354FA6 /* redgemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = redgemTests.swift; sourceTree = "<group>"; };
+		743968151ECE9E3D00354FA6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		74673BC91ECEED4600CBCF0C /* ArgumentError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArgumentError.swift; sourceTree = "<group>"; };
 		747362D41E8E2CE6000A6E6E /* ParserError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserError.swift; sourceTree = "<group>"; };
 		747362D71E8E340E000A6E6E /* SymbolsTableStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymbolsTableStack.swift; sourceTree = "<group>"; };
@@ -61,6 +65,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		7439680E1ECE9E3D00354FA6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		749C35B61E86A859000019F8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -104,6 +115,15 @@
 			name = Generator;
 			sourceTree = "<group>";
 		};
+		743968121ECE9E3D00354FA6 /* redgemTests */ = {
+			isa = PBXGroup;
+			children = (
+				743968131ECE9E3D00354FA6 /* redgemTests.swift */,
+				743968151ECE9E3D00354FA6 /* Info.plist */,
+			);
+			path = redgemTests;
+			sourceTree = "<group>";
+		};
 		747362D61E8E2CF7000A6E6E /* Errors */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +140,7 @@
 				74C1991A1E8A30FA002A2EB5 /* TestEntity.txt */,
 				749C35C71E86B3B2000019F8 /* Classes */,
 				749C35BB1E86A859000019F8 /* swiftogen */,
+				743968121ECE9E3D00354FA6 /* redgemTests */,
 				749C35BA1E86A859000019F8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -128,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				749C35B91E86A859000019F8 /* swiftogen */,
+				743968111ECE9E3D00354FA6 /* redgemTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -155,6 +177,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		743968101ECE9E3D00354FA6 /* redgemTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 743968181ECE9E3D00354FA6 /* Build configuration list for PBXNativeTarget "redgemTests" */;
+			buildPhases = (
+				7439680D1ECE9E3D00354FA6 /* Sources */,
+				7439680E1ECE9E3D00354FA6 /* Frameworks */,
+				7439680F1ECE9E3D00354FA6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = redgemTests;
+			productName = redgemTests;
+			productReference = 743968111ECE9E3D00354FA6 /* redgemTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		749C35B81E86A859000019F8 /* swiftogen */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 749C35C01E86A859000019F8 /* Build configuration list for PBXNativeTarget "swiftogen" */;
@@ -182,6 +221,11 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = mz;
 				TargetAttributes = {
+					743968101ECE9E3D00354FA6 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = KJWPEX5SPQ;
+						ProvisioningStyle = Automatic;
+					};
 					749C35B81E86A859000019F8 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = KJWPEX5SPQ;
@@ -202,11 +246,30 @@
 			projectRoot = "";
 			targets = (
 				749C35B81E86A859000019F8 /* swiftogen */,
+				743968101ECE9E3D00354FA6 /* redgemTests */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		7439680F1ECE9E3D00354FA6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		7439680D1ECE9E3D00354FA6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				743968141ECE9E3D00354FA6 /* redgemTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		749C35B51E86A859000019F8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -234,6 +297,34 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		743968161ECE9E3D00354FA6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = KJWPEX5SPQ;
+				INFOPLIST_FILE = redgemTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = zinov.m.redgemTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		743968171ECE9E3D00354FA6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = KJWPEX5SPQ;
+				INFOPLIST_FILE = redgemTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = zinov.m.redgemTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 		749C35BE1E86A859000019F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -343,6 +434,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		743968181ECE9E3D00354FA6 /* Build configuration list for PBXNativeTarget "redgemTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				743968161ECE9E3D00354FA6 /* Debug */,
+				743968171ECE9E3D00354FA6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		749C35B41E86A859000019F8 /* Build configuration list for PBXProject "swiftogen" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
