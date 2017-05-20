@@ -11,6 +11,7 @@
 		7437FDF41E9064FB003CCE89 /* MappingGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7437FDF31E9064FB003CCE89 /* MappingGenerator.swift */; };
 		7438C0641E8975A90006BAD1 /* Buffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7438C0631E8975A90006BAD1 /* Buffer.swift */; };
 		743967F71ECD855D00354FA6 /* MappingTransformerGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 743967F61ECD855D00354FA6 /* MappingTransformerGenerator.swift */; };
+		74673BCA1ECEED4600CBCF0C /* ArgumentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74673BC91ECEED4600CBCF0C /* ArgumentError.swift */; };
 		747362D51E8E2CE7000A6E6E /* ParserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747362D41E8E2CE6000A6E6E /* ParserError.swift */; };
 		747362D81E8E340E000A6E6E /* SymbolsTableStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 747362D71E8E340E000A6E6E /* SymbolsTableStack.swift */; };
 		749C35BD1E86A859000019F8 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749C35BC1E86A859000019F8 /* main.swift */; };
@@ -42,6 +43,7 @@
 		7437FDF31E9064FB003CCE89 /* MappingGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MappingGenerator.swift; sourceTree = "<group>"; };
 		7438C0631E8975A90006BAD1 /* Buffer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Buffer.swift; sourceTree = "<group>"; };
 		743967F61ECD855D00354FA6 /* MappingTransformerGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MappingTransformerGenerator.swift; sourceTree = "<group>"; };
+		74673BC91ECEED4600CBCF0C /* ArgumentError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArgumentError.swift; sourceTree = "<group>"; };
 		747362D41E8E2CE6000A6E6E /* ParserError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserError.swift; sourceTree = "<group>"; };
 		747362D71E8E340E000A6E6E /* SymbolsTableStack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SymbolsTableStack.swift; sourceTree = "<group>"; };
 		749C35B91E86A859000019F8 /* swiftogen */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = swiftogen; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,6 +109,7 @@
 			children = (
 				74C1991B1E8A962E002A2EB5 /* ScannerError.swift */,
 				747362D41E8E2CE6000A6E6E /* ParserError.swift */,
+				74673BC91ECEED4600CBCF0C /* ArgumentError.swift */,
 			);
 			name = Errors;
 			sourceTree = "<group>";
@@ -215,6 +218,7 @@
 				7438C0641E8975A90006BAD1 /* Buffer.swift in Sources */,
 				7437FDF41E9064FB003CCE89 /* MappingGenerator.swift in Sources */,
 				74EDF08E1E8C0E2B005F8479 /* SymbolTable.swift in Sources */,
+				74673BCA1ECEED4600CBCF0C /* ArgumentError.swift in Sources */,
 				74C1991C1E8A962E002A2EB5 /* ScannerError.swift in Sources */,
 				749C35BD1E86A859000019F8 /* main.swift in Sources */,
 				749C35CD1E86C1AA000019F8 /* ConsoleIO.swift in Sources */,
