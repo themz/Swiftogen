@@ -23,16 +23,6 @@ class MappingGenerator: Generator {
         return generateImports() + generateClass()
     }
     
-    func touch(code: String, filePath: String, fileName: String){
-        let path =  URL(fileURLWithPath: filePath).appendingPathComponent("\(fileName)MappingObject.swift")
-        do {
-            try code.write(to: path, atomically: false, encoding: .utf8)
-        }
-        catch {
-            print(error)
-        }
-    }
-    
     func generateFileInfo() -> String {
         return  ""
     }
@@ -44,18 +34,23 @@ class MappingGenerator: Generator {
     private func generateClass() -> String {
         let className = self.parser.symbolsTable.top()?.name
         let _classSymbol = self.parser.symbolsTable.top() as! ClassSymbol
+        let superClassName = _classSymbol.superClassName
         
-        var s = "class \(className!)MappingObject: "
-        if _classSymbol.superClassName != nil {
-           s += "\(_classSymbol.superClassName!)MappingObject"
+        var s = "class \(className! + mappingSuffix): "
+        if superClassName != nil {
+           s += superClassName! + mappingSuffix
         } else {
             s += "Mappable"
         }
         
-        s += "{\n"
+        s += openBrace + newLine
         
         s += generateInit()
-        var m = "\n\t\(_classSymbol.superClassName != nil ? "override " : "")func mapping(map: Map) {\n"
+        var m = newLine + tab + "\(superClassName != nil ? "override " : "")func mapping(map: Map) {" + newLine
+        
+        if superClassName != nil {
+            m += tab + tab + "super.mapping(map: map)" + newLine
+        }
         
         let symbols = _classSymbol.symbolsTable.allSymbols()
         
@@ -67,31 +62,28 @@ class MappingGenerator: Generator {
             }
         }
         
-        m += "\t}\n"
-        s += "\(m)}\n"
+        s += m + tab + closeBrace + newLine + closeBrace + newLine
         
         return s
     }
     
     private func generateInit() -> String {
-        return "\n\trequired convenience init?(map: Map) { self.init() }\n\n"
+        return newLine + tab + "required convenience init?(map: Map) { self.init() }" + newLine + newLine
     }
     
     private func generate(property: PropertySymbol) -> String {
-        var s = ""
+        var s = tab + "var "
         
         if property.propertyType is ArrayTypeSymbol {
             let arrayType = (property.propertyType as! ArrayTypeSymbol).arrayType
             
-            let typeName =  arrayType is BaseTypeSymbol ? arrayType.name : "\(arrayType.name)MappingObject"
+            let typeName =  arrayType is BaseTypeSymbol ? arrayType.name : arrayType.name + mappingSuffix
             
-            s += "\tvar \(property.propertyName): [\(typeName)]?\n"
+            s += "\(property.propertyName): [\(typeName)]?" + newLine
         } else if  property.propertyType is BaseTypeSymbol {
-            s += "\tvar \(property.propertyName): \(property.propertyType.name)?\n"
+            s += "\(property.propertyName): \(property.propertyType.name)?" + newLine
         } else if property.propertyType is CustomTypeSymbol {
-            s += "\tvar \(property.propertyName): \(property.propertyType.name)MappingObject?\n"
-        } else {
-            
+            s += "\(property.propertyName): \(property.propertyType.name + mappingSuffix)?" + newLine
         }
         
         return s
@@ -101,7 +93,10 @@ class MappingGenerator: Generator {
         var s = ""
         for annotation in property.annotations {
             if annotation.annotationType == .mapping {
-                s += "\t\t\(property.propertyName) <- map[\"\((annotation as! MappingAnnotationSymbol).mappingName)\"]\n"
+                s += tab
+                    + tab
+                    + "\(property.propertyName) <- map[\"\((annotation as! MappingAnnotationSymbol).mappingName)\"]"
+                    + newLine
             }
         }
         
